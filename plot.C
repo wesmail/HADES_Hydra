@@ -1,4 +1,4 @@
-void plot(histo_name="hHyperonMass", Int_t binning=0) 
+void plot(TSring histo_name="hHyperonMass", Int_t binning=0) 
 {
 
   TFile* fdata1 = new TFile("file:s1.root");
@@ -41,9 +41,9 @@ void plot(histo_name="hHyperonMass", Int_t binning=0)
   hd3->SetFillColor(46);
   hd3->SetLineWidth(3);              // Set fill color
 
-  hd1->Scale(0.1640);    //0.1856
-  hd2->Scale(0.0045);    //0.0239
-  hd3->Scale(0.1550);   //0.2245
+  hd1->Scale(0.1165);    // new
+  hd2->Scale(0.0031);    // new
+  hd3->Scale(0.1448);    // new
 
   //hd1->Scale(0.1856);    // old
   //hd2->Scale(0.0239);    // old
@@ -158,7 +158,7 @@ void plot(histo_name="hHyperonMass", Int_t binning=0)
     Pt->SetTextSize(0.035);
     Pt->SetFillColor(19);
     Pt->SetTextColor(15);
-    pt->SetTextAlign(12);
+    Pt->SetTextAlign(12);
     Pt->AddText("HADES Simulations");  
     //Pt->Draw("same");
 
