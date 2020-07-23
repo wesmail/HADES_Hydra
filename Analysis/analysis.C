@@ -139,7 +139,7 @@ Int_t analysis(TString infileList="inputDST.root", Int_t nEvents=10000){
       // skip ghost tracks (only avalible for MC events)
       if ( cand->isGhostTrack() ) continue;
       // select "good" tracks
-      if (!fCand->isFlagBit(Particle::kIsUsed)) continue;
+      if (!cand->isFlagBit(Particle::kIsUsed)) continue;
 
         // looking at some observables
         Float_t mom        = cand->getMomentum();
