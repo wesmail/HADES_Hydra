@@ -197,7 +197,7 @@ Int_t analysis(TString infileList="inputDST.root", Int_t nEvents=10000){
             cands.push_back(cand2);
 
             HKinFitter fitter(2, cands);
-            fitter.addMassVtxConstraint(1115.68);
+            fitter.addMassConstraint(1115.68);
             fitter.fit();
 
             // get fitted objects fittedcand1 and fittedcand2
