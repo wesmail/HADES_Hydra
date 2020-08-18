@@ -39,8 +39,29 @@
 #include <iostream>
 #include <iomanip>
 
+#include "HFitter.h"
+
 using namespace std;
 using namespace Particle;
+
+void FillData(HParticleCand *cand, FParticleCand &outcand, double arr[], double mass){
+    double  deg2rad = TMath::DegToRad();
+
+    TMatrixD cov(5,5);
+    cov(0,0)=std::pow(arr[0],2);
+    cov(1,1)=std::pow(arr[1],2);
+    cov(2,2)=std::pow(arr[2],2);
+    cov(3,3)=std::pow(arr[3],2);
+    cov(4,4)=std::pow(arr[4],2);
+
+    outcand.SetXYZM(cand->getMomentum()*std::sin(cand->getTheta()*deg2rad)*std::cos(cand->getPhi()*deg2rad),
+                    cand->getMomentum()*std::sin(cand->getTheta()*deg2rad)*std::sin(cand->getPhi()*deg2rad),
+                    cand->getMomentum()*std::cos(cand->getTheta()*deg2rad), mass);
+    outcand.setR(cand->getR());
+    outcand.setZ(cand->getZ());
+    outcand.setCovariance(cov);
+}
+
 
 Bool_t selectHadrons(HParticleCand* pcand)
 {
@@ -77,27 +98,27 @@ Int_t analysis(TString infileList="inputDST.root", Int_t nEvents=10000){
     // define output file and some histograms
     // -----------------------------------------------------------------------
     // set ouput file
-    TFile *outfile = new TFile("example.root","recreate");
+    TFile *outfile = new TFile("kinfit_example.root","recreate");
 
-    TH2F *h01 = new TH2F("h01","",200, -2000, 2000, 200, 0, 20);
-    h01->SetXTitle(" pxq [MeV/c]");
-    h01->SetYTitle(" MdcdEdx [a.u.]");
+    TH1F *h01 = new TH1F("hLambdaMassPreFit","",100, 1070, 1170);
+    h01->SetXTitle(" M_{p#pi^{-}} [MeV/c^{2}]");
+    h01->SetYTitle(" events ");
 
-    TH2F *h02 = new TH2F("h02","",200, -2000, 2000, 200, 0, 20);
-    h02->SetXTitle(" pxq [MeV/c]");
-    h02->SetYTitle(" TofdEdx [a.u.]");    
+    TH1F *h02 = new TH1F("hChi2","", 100, 0, 10);
+    h02->SetXTitle("#chi^{2}");
+    h02->SetYTitle(" counts ");
 
-    TH2F *h03 = new TH2F("h03","",200, -2000, 2000, 120, 0, 1.2);
-    h03->SetXTitle(" pxq [MeV/c]");
-    h03->SetYTitle(" #beta ");
+    TH1F *h03 = new TH1F("hPChi2","", 100, 0, 1);
+    h03->SetXTitle("P(#chi^{2})");
+    h03->SetYTitle(" counts ");
 
-    TH2F *h04 = new TH2F("h04","",100, 0, 360, 100, 0, 90);
-    h04->SetXTitle(" #phi");
-    h04->SetYTitle(" #theta "); 
+    TH1F *h04 = new TH1F("hLambdaMassPostFit","",100, 1070, 1170);
+    h04->SetXTitle(" M_{p#pi^{-}} [MeV/c^{2}]");
+    h04->SetYTitle(" events ");
 
-    TH1F *h05 = new TH1F("h05","",100, 1070, 1170);
-    h05->SetXTitle(" M_{p#pi^{-}} [MeV/c^{2}]");
-    h05->SetYTitle(" events ");          
+    TH1F *h05 = new TH1F("hPull","", 100, -5, 5);
+    h05->SetXTitle("Pull(1/P_{p})");
+    h05->SetYTitle(" counts ");                      
     // -----------------------------------------------------------------------
 
     HLoop loop(kTRUE);
@@ -133,7 +154,7 @@ Int_t analysis(TString infileList="inputDST.root", Int_t nEvents=10000){
     // for each event there are a number of tracks
     Int_t ntracks = catParticle->getEntries();
 
-    std::vector<HParticleCandSim*> protons, pions;
+    std::vector<FParticleCand> protons, pions;
     for(Int_t j=0; j<ntracks; j++){
       HParticleCandSim *cand = HCategoryManager::getObject(cand,catParticle,j);
       // skip ghost tracks (only avalible for MC events)
@@ -141,39 +162,55 @@ Int_t analysis(TString infileList="inputDST.root", Int_t nEvents=10000){
       // select "good" tracks
       if (!cand->isFlagBit(Particle::kIsUsed)) continue;
 
-        // looking at some observables
-        Float_t mom        = cand->getMomentum();
-        Float_t charge     = cand->getCharge();
-        Float_t beta       = cand->getBeta();
-        Float_t theta      = cand->getTheta();
-        Float_t phi        = cand->getPhi();
-        Float_t mdcdEdx    = cand->getMdcdEdx();
-        Float_t tofdEdx    = cand->getTofdEdx();
-
-        h01->Fill(mom*charge, mdcdEdx);
-        h02->Fill(mom*charge, tofdEdx);
-        h03->Fill(mom*charge, beta);
-        h04->Fill(phi, theta);
-
+        FParticleCand candidate;
         // select particles based on MC info
         // proton pdg==14, pion pdg==9
-        if (cand->getGeantPID()==14) protons.push_back(cand);
-        else if (cand->getGeantPID()==9) pions.push_back(cand);
+        // error values obtained from resoultion plots
+        if (cand->getGeantPID()==14){
+            double errors[]={1.469*1e-5, 2.410*1e-3, 5.895*1e-3, 1.188, 2.652};
+            FillData(cand, candidate, errors, 938.272);
+            protons.push_back(candidate);
+        }
+        else if (cand->getGeantPID()==9){
+            double errors[]={5.959*1e-5, 9.316*1e-3, 1.991*1e-2, 4.006, 7.629};
+            FillData(cand, candidate, errors, 139.570);
+            pions.push_back(candidate);
+        }
+        else continue;
     } // end track loop
 
     // -----------------------------------------------------------------------
     // looking at Lambda invariant mass here
     // -----------------------------------------------------------------------
-    for(size_t m=0; m<protons.size(); m++){
-        HParticleCandSim *cand1 = protons[m];
-        for(size_t n=0; n<pions.size(); n++){
-            HParticleCandSim *cand2 = pions[n];
+    for(size_t n=0; n<protons.size(); n++){
+        FParticleCand cand1 = protons[n];
+        for(size_t m=0; m<pions.size(); m++){
+            FParticleCand cand2 = pions[m];
+            // mass prefit
+            h01->Fill( (cand1 + cand2).M() );
 
-            // set mass hypothesis for protons and pions
-            cand1->calc4vectorProperties(938.272);
-            cand2->calc4vectorProperties(139.570);
+            // ---------------------------------------------------------------------------------
+            // begin kinfit here
+            // ---------------------------------------------------------------------------------
+            std::vector<FParticleCand> cands;
+            cands.push_back(cand1);
+            cands.push_back(cand2);
 
-            h05->Fill( (*cand1 + *cand2).M() );
+            HKinFitter fitter(2, cands);
+            fitter.addMassVtxConstraint(1115.68);
+            fitter.fit();
+
+            // get fitted objects fittedcand1 and fittedcand2
+            FParticleCand fcand1 = fitter.getDaughter(0); // proton
+            FParticleCand fcand2 = fitter.getDaughter(1); // pion               
+
+            h02->Fill(fitter.getChi2());
+            h03->Fill(fitter.getProb());
+            h04->Fill( (fcand1 + fcand2).M() );
+
+            // get Pull example (1/P for the fitted proton)
+            h05->Fill(fitter.getPull(0));
+            // ---------------------------------------------------------------------------------
             
         }
     }
