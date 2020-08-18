@@ -196,7 +196,7 @@ Int_t analysis(TString infileList="inputDST.root", Int_t nEvents=10000){
             cands.push_back(cand1);
             cands.push_back(cand2);
 
-            HKinFitter fitter(2, cands);
+            HFitter fitter(2, cands);
             fitter.addMassConstraint(1115.68);
             fitter.fit();
 
