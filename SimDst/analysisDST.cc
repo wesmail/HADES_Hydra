@@ -119,7 +119,7 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     TString outDir   = baseDir;
     TString outDirQA = outDir+"qa/";
 
-    TString outFileSuffix = "_BG.root";
+    TString outFileSuffix = "_simdst.root";
 
     TString asciiParFile = "./params/all_pars_ag1650ag_26032018_fwdet_4.txt";
     TString rootParFile = "./allParam_AUG14_gen2_26022016_170632_refID_14100.root";
