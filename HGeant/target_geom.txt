@@ -1,0 +1,137 @@
+
+DLL Load Path Directories (in the Order of Precedence):
+   /cvmfs/hades.gsi.de/install/root-5.34.34/lib
+   /cvmfs/it.gsi.de/oracle/product/12.1.2/client_x86_64_1/lib/
+   /lustre/nyx/hades/user/rlalik/hades/install/5.34.34/lib
+   /lib
+   /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   /cvmfs/hades.gsi.de/install/root-5.34.34/lib
+   .
+   /cvmfs/hades.gsi.de/install/root-5.34.34/lib
+   /cvmfs/hades.gsi.de/install/root-5.34.34/cint/cint/stl
+
+List and Order of loaded DLLs and their Locations:
+   Hydra                                                       : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Start                                                       : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Rich                                                        : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Mdc                                                         : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Tof                                                         : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Shower                                                      : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Emc                                                         : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Rpc                                                         : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Wall                                                        : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   FwDet                                                       : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   PionTracker                                                 : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   MdcTrackD                                                   : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   MdcTrackG                                                   : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Kalman                                                      : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   ShowerUtil                                                  : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Particle                                                    : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   QA                                                          : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Dst                                                         : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Tools                                                       : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   MdcUtil                                                     : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Simulation                                                  : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Ora                                                         : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   OraUtil                                                     : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   OraSim                                                      : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   MdcGarfield                                                 : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Revt                                                        : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Online                                                      : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   EventDisplay                                                : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   Alignment                                                   : /lustre/nyx/hades/user/rlalik/fwdet/install/hydra2-fwdet/lib
+   /cvmfs/hades.gsi.de/install/5.34.34/pluto/v5_44/libPluto.so : /cvmfs/hades.gsi.de/install/5.34.34/pluto/v5_44
+
+- RTDB container factory BaseContFact 
+- RTDB container factory StartContFact 
+- RTDB container factory RichContFact 
+- RTDB container factory MdcContFact 
+- RTDB container factory TofContFact 
+- RTDB container factory ShowerContFact 
+- RTDB container factory EmcContFact 
+- RTDB container factory RpcContFact 
+- RTDB container factory WallContFact 
+- RTDB container factory FwDetContFact 
+- RTDB container factory PionTrackerContFact 
+- RTDB container factory MdcTrackDContFact 
+- RTDB container factory MdcTrackGContFact 
+- RTDB container factory ParticleContFact 
+
+
+Processing show_geom_in_root.C...
+Read media
+Read cave
+Read rich
+Read target
+Read sect
+Read mdc
+Read coils
+Read tof
+Read frames
+Read rpc
+Read emc
+Read fwdet
+Create cave
+Create rich
+Create target
+Create sect
+Create mdc
+Create coils
+Create tof
+Create frames
+Create rpc
+Create emc
+Create fwdet
+=== Overlaps for HadesGeom ===
+ = Overlap ov00000: SEC3 extruded by: SEC3/DR4M_3 ovlp=0.656489
+ = Overlap ov00001: SEC1 extruded by: SEC1/DR1M_1 ovlp=0.49525
+ = Overlap ov00002: SEC3 extruded by: SEC3/DR3M_3 ovlp=0.467442
+ = Overlap ov00003: SEC4 extruded by: SEC4/DR3M_4 ovlp=0.466054
+ = Overlap ov00004: SEC3 extruded by: SEC3/DR1M_3 ovlp=0.317879
+ = Overlap ov00005: SEC6 extruded by: SEC6/DR1M_6 ovlp=0.272203
+ = Overlap ov00006: SEC2 extruded by: SEC2/DR1M_2 ovlp=0.261045
+ = Overlap ov00007: SEC5 extruded by: SEC5/DR2M_5 ovlp=0.256672
+ = Overlap ov00008: SEC1 extruded by: SEC1/DR2M_1 ovlp=0.248859
+ = Overlap ov00009: SEC6 extruded by: SEC6/DR2M_6 ovlp=0.153335
+ = Overlap ov00010: SEC1 extruded by: SEC1/DR3M_1 ovlp=0.136887
+ = Overlap ov00011: SEC2 extruded by: SEC2/DR2M_2 ovlp=0.0240614
+ = Overlap ov00012: SEC6/CKIV_6 overlapping SEC6/FOUC_6 ovlp=1.76446
+ = Overlap ov00013: SEC5/CKIV_5 overlapping SEC5/FOUC_5 ovlp=1.76446
+ = Overlap ov00014: SEC2/CKIV_2 overlapping SEC2/FOUC_2 ovlp=1.76446
+ = Overlap ov00015: SEC1/CKIV_1 overlapping SEC1/FOUC_1 ovlp=1.76446
+ = Overlap ov00016: SEC3/CKIV_3 overlapping SEC3/FOUC_3 ovlp=1.76446
+ = Overlap ov00017: SEC4/CKIV_4 overlapping SEC4/FOUC_4 ovlp=1.76446
+ = Overlap ov00018: SEC6/CKIV_6 overlapping SEC6/FINC_6 ovlp=1.04692
+ = Overlap ov00019: SEC5/CKIV_5 overlapping SEC5/FINC_5 ovlp=1.04692
+ = Overlap ov00020: SEC3/CKIV_3 overlapping SEC3/FINC_3 ovlp=1.04692
+ = Overlap ov00021: SEC4/CKIV_4 overlapping SEC4/FINC_4 ovlp=1.04692
+ = Overlap ov00022: SEC2/CKIV_2 overlapping SEC2/FINC_2 ovlp=1.04692
+ = Overlap ov00023: SEC1/CKIV_1 overlapping SEC1/FINC_1 ovlp=1.04692
+ = Overlap ov00024: SEC3/DR2M_3 overlapping SEC3/CKIV_3 ovlp=0.473366
+ = Overlap ov00025: SEC4/DR2M_4 overlapping SEC4/CKIV_4 ovlp=0.412308
+ = Overlap ov00026: SEC2/DR2M_2 overlapping SEC2/CKIV_2 ovlp=0.176532
+ = Overlap ov00027: SEC6/DR2M_6 overlapping SEC6/CKIV_6 ovlp=0.0675223
+ = Overlap ov00028: SEC5/DR2M_5 overlapping SEC5/CKIV_5 ovlp=0.03278
+ = Overlap ov00029: SEC1/DR2M_1 overlapping SEC1/CKIV_1 ovlp=0.0244342
+ = Overlap ov00030: RICH/RSHI_1 overlapping RICH/RSHI_2 ovlp=0.000169591
+== Volume: TARG type TGeoVolume positioned 1 times
+*** Shape TGeoCone TGeoCone ***
+    dz    =:     2.37000
+    Rmin1 =     0.00000
+    Rmax1 =     1.20000
+    Rmin2 =     0.00000
+    Rmax2 =     1.00000
+ Bounding box:
+*** Shape TGeoCone: TGeoBBox ***
+    dX =     1.20000
+    dY =     1.20000
+    dZ =     2.37000
+    origin: x=    0.00000 y=    0.00000 z=    0.00000
+Material LHYDRO$    A=1.008 Z=1 rho=0.071 radlen=814.656 intlen=496.871 index=15
+0
+TGLWidget:	41943223
+	TGVerticalFrame:	41943218
+	TGCompositeFrame:	41943178
+	TGLSAFrame:	41943167
+
+Exiting Root

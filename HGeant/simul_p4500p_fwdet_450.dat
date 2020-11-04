@@ -1,0 +1,91 @@
+! GEANT key words
+!
+PMCF 1
+AUTO 1
+KINE 0
+FMAP 2
+FPOL 0.9235
+MXST 25000
+JVER 2 2 0
+BEAM 1. 1. 4500. 0. 0. 0.
+SECO 3 0
+CKOV 1
+LOSS 1
+DRAY 1
+SWIT 0 0 0 0 0 0 1 1
+TRIG 10000
+ETA  37.30 30.20 21.00 4.75 6.0 7.1e-2
+TIME 0 1000000 1000000
+SPLIT 1800000000
+FILE 1
+END            ! End of gffread
+//
+// ******************************************************************
+//
+// geometry for Ag + Ag simimulation for 2017 beam time proposal 
+//
+DbSupport:     OFF
+SimulRefRunId: 0
+ParameterFile: /cvmfs/hades.gsi.de/param/hgeant/prop2017/emc_gpar_2_21042017.root
+//
+//      CUTGAM  CUTELE  CUTNEU CUTHAD  CUTMUO  BCUTE   BCUTM  DCUTE   DCUTM   PPCUTM  TOFMAX
+//CUTS  0.0005  0.0005  0.0100 0.0100  0.0100  0.0005  0.010  0.0005  0.0100  0.01    1.e10
+//CUTS 16 R Kinetic energy cuts in GeV:
+//      CUTGAM cut for for gammas /GCCUTS/ 0.001
+//      CUTELE cut for electrons /GCCUTS/ 0.001
+//      CUTNEU cut for neutral hadrons /GCCUTS/ 0.01
+//      CUTHAD cut for charged hadrons /GCCUTS/ 0.01
+//      CUTMUO cut for muons /GCCUTS/ 0.01
+//      BCUTE cut for electron bremsstrahlung /GCCUTS/ GUTGAM
+//      BCUTM cut for muon and hadron bremsstrahlung /GCCUTS/ CUTGAM
+//      DCUTE cut for -rays by electrons /GCCUTS/ 1e04
+//      DCUTM cut for -rays by muons /GCCUTS/ 1e04
+//      PPCUTM total energy cut for direct pair production by muons /GCCUTS/ 0.01
+//      TOFMAX time of flight cut in seconds /GCCUTS/ 10e10
+//      GCUTS 5 user words /GCCUTS/ 0
+//
+// SWIT 0 0 0 0 0 1 1 1   // standard urqmd evtplane+gcalor+neutrocut
+// SWIT 0 0 0 0 0 0 1 1   // standard pluto gcalor+neutrocut
+// switch GCALOR      SWIT 0 0 0 0 0 0 1 1   neutron<10MeV cut
+// switch GCALOR      SWIT 0 0 0 0 0 0 1 
+// switch eventplane  SWIT 0 0 0 0 0 1 0 
+// JVER 2 2 0        standard random vertex segmented target
+// JVER 0 0 0        vertex from eventfile or form stanadrd 0,0,0 if no vertex in file
+// KINE 1 0. 90. 0. 360. 400. 400. 3. 0. 0. 0    // 1 electron  0-90 theta 0-360 phi 400 MeV/c
+// KINE 1 0. 90. 0. 360. 400. 400. 3. 0. 0. 0
+//
+./geom_ppFwdet_450/cave.geo
+./geom_ppFwdet_450/coils.geo
+./geom_ppFwdet_450/frames.geo
+./geom_ppFwdet_450/mdc.geo
+./geom_ppFwdet_450/media.geo
+// geom_ppFwdet_450/rich700d.geo
+./geom_ppFwdet_450/rich700n.geo
+./geom_ppFwdet_450/rpc.geo
+./geom_ppFwdet_450/sect.geo
+./geom_ppFwdet_450/emc.geo
+./geom_ppFwdet_450/target.geo
+./geom_ppFwdet_450/tof.geo
+./geom_ppFwdet_450/fwdet.geo
+//
+./geom_ppFwdet_450/mdc.hit
+./geom_ppFwdet_450/rich.hit
+./geom_ppFwdet_450/rpc.hit
+./geom_ppFwdet_450/emc.hit
+./geom_ppFwdet_450/tof.hit
+./geom_ppFwdet_450/fwdet.hit
+//
+/cvmfs/hades.gsi.de/param/field/fldrpz_unf.map
+//
+kine.tup
+rich.tup
+mdc.tup
+tof.tup
+emc.tup
+fwdet.tup
+rpc.tup
+//
+@input@
+//INPUT_FILE
+@output@
+//OUTPUT_FILE
