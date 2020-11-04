@@ -1,6 +1,6 @@
-//#define FWDET 1
+#define FWDET 1
 
-
+//
 #include "hades.h"
 #include "hspectrometer.h"
 #include "hdetector.h"
@@ -26,6 +26,7 @@
 #ifdef FWDET
 #include "hfwdettaskset.h"
 #include "hfwdetdetector.h"
+#include "hfwdetvectorfinder.h"
 #endif
 
 #include "hparticlevertexfind.h"
@@ -55,7 +56,6 @@
 #include "hmdcsetup.h"
 #include "hmagnetpar.h"
 #include "hmdclayercorrpar.h"
-#include "hmdcdigitpar.h"
 #include "hmdcdedx2maker.h"
 #include "hmdcdigitizer.h"
 #include "hrich700digitizer.h"      // rich700
@@ -75,6 +75,10 @@
 
 using namespace std;
 
+
+
+
+
 Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt=0)
 {
     new Hades;
@@ -83,7 +87,7 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     gHades->makeCounter(10);
     gHades->setBeamTimeID(Particle::kApr12);
     gHades->getSrcKeeper()->addSourceFile("analysisDST.cc");
-    gHades->getSrcKeeper()->addSourceFile("sendScript_SL.sh");
+    gHades->getSrcKeeper()->addSourceFile("run_job.py");
 
 
     //####################################################################
@@ -105,6 +109,7 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     } else {
         beamtimeTrack="aug14";
     }
+    beamtime = "aug14";
 
 
     //-------------- Default Settings for the File names -----------------
@@ -114,9 +119,9 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     TString outDir   = baseDir;
     TString outDirQA = outDir+"qa/";
 
-    TString outFileSuffix = "_dst_" + beamtime + ".root";
+    TString outFileSuffix = "_BG.root";
 
-    TString asciiParFile = "./params/all_pars_ag1650ag_21042017_fwdet.txt";
+    TString asciiParFile = "./params/all_pars_ag1650ag_26032018_fwdet_4.txt";
     TString rootParFile = "./allParam_AUG14_gen2_26022016_170632_refID_14100.root";
     TString paramSource = "ascii,root"; // root, ascii, oracle
     TString paramRelease = "APR12SIM_dst_gen8a"; // 27012016
@@ -174,10 +179,8 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
         catParticleMdc,
 	catWallRaw, catWallOneHit, catWallCal,
 
-
-
 #ifdef FWDET
-        catFwDetGeantRaw,
+//        catFwDetGeantRaw,
 #endif
 	catMdcGeantRaw,catTofGeantRaw,catRpcGeantRaw,catShowerGeantRaw,catEmcGeantRaw,catWallGeantRaw,
 	catStartGeantRaw,catRichGeantRaw,catRichGeantRaw+1,catRichGeantRaw+2
@@ -255,7 +258,7 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
 	{6,6,5,6} };
     Int_t nLevel[4] = {10,50000,10,5000};
 
-    HDst::setupSpectrometer(beamtime,mdcMods,"start,rich,mdc,tof,rpc,emc,wall");
+    HDst::setupSpectrometer(beamtime,mdcMods,"start,rich,mdc,tof,rpc,emc,wall,fwdet");
     // beamtime mdcMods_apr12, mdcMods_full
     // Int_t mdcset[6][4] setup mdc. If not used put NULL (default).
     // if not NULL it will overwrite settings given by beamtime
@@ -321,7 +324,7 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     HMagnetPar* magnet = (HMagnetPar*)rtdb->getContainer("MagnetPar");
     rtdb->initContainers(refId);
     magnet->setStatic();
-    magnet->setCurrent(3200);
+    magnet->setCurrent(3200); //  <=========
 
     if(doReverseField){
         Int_t current = magnet->getCurrent();
@@ -329,24 +332,9 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     }
     magnet->printParams();
 
-    HMdcSetup* mysetup    = (HMdcSetup*)rtdb->getContainer("MdcSetup");
-    //HMdcDigitPar* digipar = (HMdcDigitPar*)rtdb->getContainer("MdcDigitPar"); // simulate impact of 1 sparking layer switched off
+    HMdcSetup* mysetup = (HMdcSetup*)rtdb->getContainer("MdcSetup");
     rtdb->initContainers(refId);
     mysetup->setStatic();
-
-    /*
-    //-------------------------------------------------------------------------------------
-    // simulate impact of 1 sparking layer switched off
-    for(Int_t s=2;s<3;s++){
-	for(Int_t m=0;m<1;m++){
-	    for(Int_t l=5;l<6;l++){
-		digipar->setLayerEfficiency(s,m,l,0.);  //MDC module 0, sector 2 layer 5 (software counting) is the problematic one.
-	    }
-	}
-    }
-    digipar->printParam();
-    //-------------------------------------------------------------------------------------
-    */
 
     //mysetup->getMdcCommonSet()->setIsSimulation(1);                 // fit
     //mysetup->getMdcCommonSet()->setAnalysisLevel(1);                // fit
@@ -364,7 +352,7 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     HTask *mdcTasks           = mdcTaskSet         ->make("rtdb","");
 
 #ifdef FWDET
-    HTask* fwdetTasks = fwdetTaskSet->make("simulation","strawcal,rpccal,rpchitf,vf");
+    HTask* fwdetTasks = fwdetTaskSet->make("simulation","strawcal,rpccal,rpchitf");
 #endif
     HMdcDigitizer* digi = mdcTaskSet->getDigitizer();
     if(digi){
@@ -389,7 +377,9 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     HParticleVertexFind    *pParticleVertexFind = new HParticleVertexFind   ("particlevertexfind","particlevertexfind",kTRUE);
     HParticleEvtInfoFiller *pParticleEvtInfo    = new HParticleEvtInfoFiller("particleevtinfo"   ,"particleevtinfo",beamtime);
     HParticleBt            *pParticleBt         = new HParticleBt("RichBackTracking","RichBackTracking",beamtime);
-
+#ifdef FWDET
+    HFwDetVectorFinder     *pFwDetVectFind      = new HFwDetVectorFinder("FwDetVectorFinder","FwDetVectorFinder");
+#endif
 
 
     //----------------------- Quality Assessment -------------------------
@@ -428,6 +418,9 @@ Int_t analysisDST(TString inFile, TString outdir,Int_t nEvents=1, Int_t startEvt
     masterTaskSet->add(pParticleEvtInfo);
     //masterTaskSet->add(pParticleBt);  // rich700
     masterTaskSet->add(new HParticleT0Reco("T0","T0",beamtime));
+#ifdef FWDET
+    masterTaskSet->add(pFwDetVectFind);
+#endif
 
     //if (qaMaker) masterTaskSet->add(qaMaker);
 
