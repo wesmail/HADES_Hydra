@@ -1,4 +1,4 @@
-void Generate(UInt_t nEvents=10000, TString outdir="./out", TString outfile="output")
+void Generate(UInt_t nEvents=10000, TString outdir="./", TString outfile="output")
 {
     Int_t  rootOut      = 0;    // write pluto root file
     Int_t  calcVertex   = 1;
