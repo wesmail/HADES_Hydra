@@ -47,14 +47,14 @@ The `HRefitCand` object has two members:
 
 The `HFitter` constructor accepts single argument wihich is a vector of `HRefitCand` objects. After the `fit()` is executed, each object of `HRefitCand` is automaticaly updated with the new values of parameters. In order to copy the new values into original object, one has to call `updateDaughters()` which internally calls `HRefitCand::update()` on each object.
 
-### I give example for Lambda decay (mass constraint)
+### I give an example of Lambda decay (mass constraint)
 
-1. Include the hitter header:
+1. Include the hfitter header:
 ```c++
 #include "hfitter.h"
 ```
 
-2. Create `FParticleCand` as follows:
+2. Create `HRefitCand` as follows:
 ```c++
 // set mass hypothesis for HParticleCand (e.g. called fcand1 and fcand2)
 fcand1->calc4vectorProperties(938.272);
